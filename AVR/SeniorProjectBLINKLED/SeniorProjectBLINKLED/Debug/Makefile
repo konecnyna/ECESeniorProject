@@ -36,7 +36,12 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../utils.c \
+../defines.c \
+../motor.c \
+../usart.c \
+../avr_interupt.c \
+../pin.c \
+../PWM.c \
 ../main.c
 
 
@@ -47,19 +52,39 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-utils.o \
+defines.o \
+motor.o \
+usart.o \
+avr_interupt.o \
+pin.o \
+PWM.o \
 main.o
 
 OBJS_AS_ARGS +=  \
-utils.o \
+defines.o \
+motor.o \
+usart.o \
+avr_interupt.o \
+pin.o \
+PWM.o \
 main.o
 
 C_DEPS +=  \
-utils.d \
+defines.d \
+motor.d \
+usart.d \
+avr_interupt.d \
+pin.d \
+PWM.d \
 main.d
 
 C_DEPS_AS_ARGS +=  \
-utils.d \
+defines.d \
+motor.d \
+usart.d \
+avr_interupt.d \
+pin.d \
+PWM.d \
 main.d
 
 OUTPUT_FILE_PATH +=SeniorProjectBLINKLED.elf
@@ -73,6 +98,16 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
+
+
+
+
+
+
+
+
 
 
 

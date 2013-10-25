@@ -106,13 +106,43 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="utils.c">
+    <Compile Include="defines.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="motor.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="motor.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usart.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usart.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="avr_interupt.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="avr_interupt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pin.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pin.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PWM.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PWM.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="utils.h">
+    <Compile Include="defines.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
