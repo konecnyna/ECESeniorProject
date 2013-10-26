@@ -1,12 +1,48 @@
 <?php
 //check logged in or not!
 session_start();
+ini_set('display_errors', 1);
 error_reporting(E_ALL);
 if(!isset($_SESSION['loggedIn'])){
 	header('Location:index.php');
 }
 require('classes/sql.php');
 
+
+if(isset($_POST['usrname']) && isset($_POST['oldpw']) && isset($_POST['newpw1']) && isset($_POST['newpw2'])){
+	$user = $_POST['usrname'];
+	$oldpw = $_POST['oldpw'];
+	$newpw1 = $_POST['newpw1'];
+	$newpw2 = $_POST['newpw2'];
+	
+
+	echo $user . $oldpw . $newpw1 . $newpw2;
+	
+	$m = new mysql();
+
+	$sql = "select count(*) from members where username='$user' and password='$oldpw'";
+	$result = mysql_query($sql, $m->con);
+	$row = mysql_fetch_array($result);
+	if (!$result)
+        {
+		echo 'Error Saving Data. ';
+	}
+	if ($row[0] > 0)
+	{
+		if($newpw1 != $newpw2){
+			$msg = "New passwords don't match.";
+		}
+		else{
+			$sql2 = "UPDATE members SET password='$newpw1' WHERE username='$user'";
+			header("location:logged_in.php");
+			exit;
+		}
+	}
+	else
+	{
+		$msg = 'Wrong username or password.';
+	}
+}
 
 
 ?>
@@ -30,6 +66,10 @@ require('classes/sql.php');
 	<h3>Change Password</h3>
 	   <form action="" id="changepw" method="POST"> 
 		<table>
+	            <tr>
+                        <td>User Name :</td>
+                        <td><input type="text" id="usrname" name="usrname" /></td>
+                    </tr>
 	            <tr>
                         <td>Old Password :</td>
                         <td><input type="password" id="oldpw" name="oldpw" /></td>
@@ -80,8 +120,8 @@ require('classes/sql.php');
 
 if(isset($_POST['nevermind']))
 {
-header("location:logged_in.php");
-exit;
+	header("location:logged_in.php");
+	exit;
 }
 
 ?>

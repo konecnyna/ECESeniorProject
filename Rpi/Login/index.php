@@ -6,9 +6,9 @@ error_reporting(E_ALL);
 
 require('classes/sql.php');
 
-if(isset($_POST['usremail']) && isset($_POST['usrpass'])){
+if(isset($_POST['usrname']) && isset($_POST['usrpass'])){
 	//$email = mysql_real_escape_string($m->con, $_POST['usremail']);
-	$user = $_POST['usremail'];
+	$user = $_POST['usrname'];
 	//$password = mysql_real_escape_string($m->con, $_POST['usrpass']);
 	$password = $_POST['usrpass'];
 	//$password = md5($password . 'd64kd87q');
@@ -36,7 +36,7 @@ if(isset($_POST['usremail']) && isset($_POST['usrpass'])){
 	}
 	else
 	{      
-		$msg = 'Wrong email or password.';
+		$msg = 'Wrong username or password.';
 	}
 }
 	
@@ -44,7 +44,7 @@ if(isset($_POST['usremail']) && isset($_POST['usrpass'])){
 if(isset($_REQUEST['ch']) && $_REQUEST['ch'] == 'logout'){
 	print "Logged out";
 	unset($_SESSION['loggedIn']);
-	unset($_SESSION['usremail']);
+	unset($_SESSION['usrname']);
 	unset($_SESSION['usrpass']);
 	header('Location:index.php');
 } 
@@ -75,7 +75,7 @@ $(document).ready(function(){
             usrpass: {
                 required: true
             },
-            usremail: {
+            usrname: {
                 required: true
             }
         },
@@ -83,9 +83,9 @@ $(document).ready(function(){
             usrpass: {
                 required: 'Password is required.'  
             },
-            usremail: {
-                required: 'Email is required.',
-                email : 'Invalid Email.'
+            usrname: {
+                required: 'Username is required.',
+                Username : 'Invalid Username.'
             }
         }
     }); // end register validation
@@ -100,7 +100,7 @@ $(document).ready(function(){
                 <table>
                     <tr>
                         <td>User Name :</td>
-                        <td><input type="text" id="usremail" name="usremail" /></td>
+                        <td><input type="text" id="usrname" name="usrname" /></td>
                     </tr>
                     <tr>
                         <td>Password :</td>

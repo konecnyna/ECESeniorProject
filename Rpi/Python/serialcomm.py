@@ -24,7 +24,13 @@ def serial_read(socket):
 
 
 
+		
 
+#get info from webpage.		
+if(len(sys.argv)>1 or len(sys.argv) ==0):
+	break
+args = join(sys.argv)
+	
 #Loop until connection is made
 socket = -1
 while(socket < 0):
@@ -34,7 +40,7 @@ print "starting"
 success = True
 #Loop inf and toggle led.
 while(True):
-        socket.send("a")
+        socket.send(args)
         try:
                 res = serial_read(socket)
                 print res

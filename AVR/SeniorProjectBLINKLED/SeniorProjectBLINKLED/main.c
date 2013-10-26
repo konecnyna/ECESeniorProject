@@ -36,42 +36,16 @@ int main(void)
 	FILE *fpr;
 	fpr=stdin;
 	
-	
-	
-	//unlock_door();
-	//start_pin_pwm(pinOCR1A, 10);
-	//pwm_manual(pinOCR1A, fpr);
-	//testing_stuff();
-	char c = 'a';
-	
-	
-	//pin_high(pinOCR1A);
-	//pin_low(pinOCR1B);
-	//pin_high(pinOCR1B);
-	//DDRD |= (1 << PD5);
-	//DDRE &= ~(1 << PE2);	
-	while(c != 'q')
-	{
-		//Try serial Communcation
-		printf("q to quit:");
-			
-			
-		//printf("Waiting for input\r\n");
-		//_delay_ms(500);
-		c = USART_Receive(fpr);
-		
-		
-	}
-	DDRD &= ~( 1 << PD5);
-	DDRE &= ~( 1 << PE2);
-	
+
+
+	testing_stuff();
 	
 	while(1)
 	{	
 		
 		printf("no active functions running...\r\n");
 		_delay_ms(1000);
-		//testing_stuff();
+	
 
 
 		
@@ -83,36 +57,21 @@ int main(void)
 
 
 void testing_stuff(){
-		//pin_high(pinOCR1B);
-
-		//pin_low(pinOCR1A);
-		
-		//_delay_ms(1000);
-				
+	
+	
+		pin_high(pinOCR1A);
+		pin_high(pinOCR1B);
 		in_progress = TRUE;
 				
-		//Loop until limit switch
-		///while(in_progress == TRUE)
-		//;
-		//Loop until limit switch
 		while(in_progress == TRUE)
 		{
 			printf("in while...\r\n");
 			_delay_ms(1000);
 		}
-				
-		//pin_low(pinOCR1A);
-		//pin_low(pinOCR1B);
-		
-		
-		
-		
-		
-		
-		
-		//pin_low(pinOCR1A);
-		//pin_low(pinOCR1B);
-		
+		pin_low(pinOCR1A);
+		pin_low(pinOCR1B);
+		return 0;	
+		//_delay_ms(5000);	
 }
 
 void init_stuff()
