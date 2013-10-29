@@ -1,7 +1,6 @@
-ECE 401-403: Senior Project
-===========================
-Doorlock Holmes
-================
+#ECE 401-403: Senior Project
+
+##Doorlock Holmes
 
 A smart motor controlled locking system for a front door. The system will be implemented using an
 AVR, Stepper motor, standard dead bolt door lock, and a Raspberry Pi. The AVR will be used to control
