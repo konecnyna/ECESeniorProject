@@ -1,0 +1,78 @@
+<?php
+
+
+session_start();
+error_reporting(E_ALL);
+
+//check if in session
+if(!isset($_SESSION['loggedIn'])){
+	header('Location:index.php');
+}
+require('classes/sql.php');
+require('classes/log.php');
+
+$usr_id = $_SESSION['loggedIn'];
+<<<<<<< HEAD
+//$usr_id = 69;
+echo "Please Wait...";
+=======
+
+echo "Please Wait...<br/>";
+>>>>>>> 13e7c3e1ba050fd89cf7f9c7aaaa608492b3b1d3
+//send a U (unlock) or a L (lock)
+function send_to_avr($action) {
+   $cmd = "python classes/serialcomm.py $action";
+   $response = shell_exec($cmd);
+   if(!$response){
+       echo "Error: python exec failed!<br/>";
+   } else {
+       echo "<br />";
+       echo "successfully executed!";
+       echo "<br />";
+       echo "Response: $response";
+   }
+   return $response;
+   //in future change to redirect back to loggedin
+  // maike jquery so it can be updated in real time
+}
+
+
+
+$rez = "";
+$code_id = -1;
+if(isset($_GET['unlock'])){
+	$rez = send_to_avr('u');
+        $code_id = 4;
+}else if(isset($_GET['lock'])){
+	$rez = send_to_avr('l');
+        $code_id = 3;
+}else if(isset($_GET['status'])){
+	$rez = send_to_avr('s');
+	$code_id = 5;
+}
+else echo "Error, no post variables set";
+
+echo "Raw result: ".$rez."||<br/>";
+
+$rez = split(": ",$rez);
+if($rez == ""){
+ $rez[1] = -1;
+}
+
+
+$log = new log();
+$log->insert_log($usr_id, $code_id, $rez[1]);
+<<<<<<< HEAD
+
+//echo $user_id.$code_id.$rez[1];
+//$db = new mysql();
+//$log_sql = "INSERT INTO `log`(`user_id`, `action_id`, `response_id`) VALUES ($usr_id,$code_id,$rez[1])";
+//echo $log_sql;
+//mysql_query($log_sql, $db->con);
+=======
+>>>>>>> 13e7c3e1ba050fd89cf7f9c7aaaa608492b3b1d3
+
+echo "<br/>Event logged. <br/>Finished";
+
+
+?>

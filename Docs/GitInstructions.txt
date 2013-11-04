@@ -1,0 +1,34 @@
+How to Clone project:
+cd to git Directory
+Git clone https://konecny.visualstudio.com/defaultcollection/_git/senior%20project
+
+
+How to checkout latest code:
+(cd to be in git project)
+git pull
+
+How to check-in code:
+git add *
+git commit -a -m "message"
+git push
+
+
+Ignore changes / undo changes:
+git stash // will undo everything
+git pull
+
+
+Git Log export.
+git log --pretty=format:'%an,%ad,%s' > log.csv
+Reference: http://git-scm.com/book/en/Git-Basics-Viewing-the-Commit-History
+
+
+Store Credientials
+git config credential.helper store
+git pull
+Done.
+
+
+Mount www in git
+(http://stackoverflow.com/questions/86402/how-can-i-get-git-to-follow-symlinks/2079380#2079380)
+sudo mount --bind SOURCEDir TARGETDir

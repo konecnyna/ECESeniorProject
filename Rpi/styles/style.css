@@ -1,0 +1,63 @@
+table td{
+	padding-top: 10px;
+}
+table {
+  width: 500px;
+  margin: 10px auto;
+}
+
+#DivLogin{
+	font-family: Helvetica, Arial, sans-serif;
+	position: absolute;
+	border: 1px solid gray;
+    left: 500px;
+	top: 200px;
+	padding: 40px 40px 20px 40px;
+	
+	-moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+	
+    -moz-box-shadow: 2px 2px 2px #cccccc;
+    -webkit-box-shadow: 2px 2px 2px #cccccc;
+    box-shadow: 2px 2px 2px #cccccc;
+}
+
+#DivDrinkTool{
+	font-family: Helvetica, Arial, sans-serif;
+	width:600px;
+	margin:0 auto;
+	border: 1px solid gray;
+	padding: 40px 40px 180px 40px;
+	
+	-moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+	
+    -moz-box-shadow: 2px 2px 2px #cccccc;
+    -webkit-box-shadow: 2px 2px 2px #cccccc;
+    box-shadow: 2px 2px 2px #cccccc;
+}
+#usremail, #usrpass{
+	padding: 4px;
+}
+#submit{
+	padding: 8px;
+	background-color: #5b94cd;
+	color: #ffffff;
+	border: #2373a5;
+}
+#submit:hover{
+background-color: #387bbe;
+}
+
+
+#signup .indent label.error, #login .indent label.error, #frmnewpass .indent label.error{
+  margin-left: 0;
+}
+#signup label.error, #login label.error,  #frmnewpass label.error {
+  font-size: 0.8em;
+  color: #F00;
+  font-weight: bold;
+  display: block;
+}
