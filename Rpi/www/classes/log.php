@@ -5,7 +5,7 @@ class log{
     {
 
         $db = new mysql();
-        $view_log_sql = "SELECT log.log_date, members.username, s2.code_desc action_code, s1.code_desc response_code
+        $view_log_sql = "SELECT log.log_date, COALESCE(members.username, 'Deleted User') as 'username', s2.code_desc action_code, s1.code_desc response_code
                 FROM log
                 LEFT JOIN members ON log.user_id = members.user_id
                 LEFT JOIN statusCodes s1 ON log.response_id = s1.code_id
@@ -17,7 +17,7 @@ class log{
 
         //echo $view_log_sql;
         $result = mysql_query($view_log_sql, $db->con);
-        $response = "<table border=1 style='border:1px solid black;'>";
+        $response = "<table border=1 style='border:1px solid black;margin:auto;' >";
         $response .= "<tr><th>Date</th><th>User</th><th>Action</th><th>Response</th></tr>";
         while($row = mysql_fetch_array($result))
         {

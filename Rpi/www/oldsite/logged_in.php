@@ -86,7 +86,7 @@ require('classes/log.php');
 <body>
 	<div class="header">
 		<div class="container" style="display:block; padding:15px">
-			<img src="http://newescapologist.co.uk/wp-content/uploads/2013/09/silhouette-large.gif" height=75px/>
+			<img src="images/icon.png" height=75px/>
 
 				<a href="index.php?ch=logout" style="float:right">Logout</a><br/>	
 		</div>

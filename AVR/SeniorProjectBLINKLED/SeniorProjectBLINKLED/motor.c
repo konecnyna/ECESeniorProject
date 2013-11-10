@@ -105,6 +105,7 @@ int lock_door()
 	//Check position of door.
 	if(get_lock_position() == UNLOCKED)
 	{
+		
 		//Lock door
 		pin_high(pinOCR1B);
 		pin_low(pinOCR1A);
@@ -117,7 +118,6 @@ int lock_door()
 			}
 		}
 				
-
 		pin_low(pinOCR1A);
 		pin_low(pinOCR1B);
 		
@@ -145,6 +145,7 @@ int unlock_door()
 {
 	if(get_lock_position()  == LOCKED)
 	{
+		
 		in_progress = TRUE;
 		pin_high(pinOCR1A);
 		pin_low(pinOCR1B);
@@ -156,7 +157,6 @@ int unlock_door()
 		}
 		pin_low(pinOCR1A);
 		pin_low(pinOCR1B);
-		
 		if(get_lock_position()== UNLOCKED)
 		{
 			return SUCCESS;

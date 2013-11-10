@@ -32,22 +32,24 @@ require('classes/log.php');
 </head>
 <body>
 
-	<!--Header-->
-    <div data-theme="b" data-role="header" style="padding:10px;">
-        <div style="text-align:center">
-		<h1>
-            Doorlock Homes
-        </h1>
-		<img src="http://newescapologist.co.uk/wp-content/uploads/2013/09/silhouette-large.gif" height=75px/>
-		</div>
-		<p><p/>
-		 
-		 
-		 <a data-icon="arrow-l" data-role="button"  rel="external" data-transition="slide" href="logout.php" data-theme="c">
-			Logout
-        </a>
-    </div>
-	<!--End Header-->
+
+<div data-role="page" id="display_log">
+<!--Header-->
+<div data-theme="b" data-role="header" style="padding:10px;">
+	<div style="text-align:center">
+	<h1>
+		Doorlock Homes
+	</h1>
+	<img src="images/icon.png" height=75px/>
+	</div>
+	<p><p/>
+	 
+	 
+	 <a data-icon="arrow-l" data-role="button"  rel="external" data-transition="slide" href="logout.php" data-theme="c">
+		Logout
+	</a>	
+</div>
+<!--End Header-->
 	
 <h1>Log:</h1>
 
@@ -66,7 +68,7 @@ if($show_debug){
         </h2>
     </div>
 
-
+</div>
 </body>
 </html>
 

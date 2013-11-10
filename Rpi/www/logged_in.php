@@ -1,10 +1,15 @@
 <?php
 //check logged in or not!
 session_start();
+ini_set('display_errors', 1);
+
 error_reporting(E_ALL);
 if(!isset($_SESSION['loggedIn'])){
 	header('Location:index.php');
 }
+
+$boobs = "farts";
+
 require('classes/sql.php');
 require('classes/log.php');
 ?>
@@ -18,16 +23,51 @@ require('classes/log.php');
   <title>DoorLock Homes</title>
 
  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+ <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
 
 
 <script src="js/doorlock.js"></script>
 
-   
-   
+
+
 </head>
 <body>
+
+
+
+
+<script type="text/javascript">
+$(document).bind("mobileinit", function () {
+    $.mobile.ajaxEnabled = false;
+});
+
+$(document).on('pageshow', '#page1', function(event){
+	var alert_msg = '<?php if(isset($_SESSION['alert_msg']))echo $_SESSION['alert_msg'];?>';
+	if(alert_msg.length)toast(alert_msg);
+	alert_msg = '';
+});
+var toast=function(msg){
+
+	$("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h3>"+msg+"</h3></div>")
+	.css({ display: "block", 
+		opacity: 0.90, 
+		position: "fixed",
+		padding: "7px",
+		"text-align": "center",
+		width: "270px",
+		left: ($(window).width() - 284)/2,
+		top: $(window).height()/2 })
+	.appendTo( $.mobile.pageContainer ).delay( 2000 )
+	.fadeOut( 400, function(){
+		$(this).remove();
+	});
+}
+
+</script> 
+
+
 <!-- Home -->
 <div data-role="page" id="page1">
 	<!--Header-->
@@ -36,17 +76,14 @@ require('classes/log.php');
 		<h1>
             Doorlock Homes
         </h1>
-		<img src="http://newescapologist.co.uk/wp-content/uploads/2013/09/silhouette-large.gif" height=75px/>
+		<img src="images/icon.png" height=75px/>
 		</div>
 		<p><p/>
 		 
 		 
 		 <a data-icon="arrow-l" data-role="button"  rel="external" data-transition="slide" href="logout.php" data-theme="c">
 			Logout
-        </a>
-		
-		
-	
+        </a>	
     </div>
 	<!--End Header-->
 	
@@ -133,3 +170,4 @@ require('classes/log.php');
 </div>
 </body>
 </html>
+<?php unset($_SESSION['alert_msg']); ?>

@@ -1,3 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>DoorLock Homes</title>
+
+ <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+</head>
+
 <?php
 //check logged in or not!
 session_start();
@@ -5,6 +20,10 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 if(!isset($_SESSION['loggedIn'])){
 	header('Location:index.php');
+}
+
+if(isset($_SESSION['alert_msg'])){
+	unset($_SESSION['alert_msg']);
 }
 
 require('classes/sql.php');
@@ -17,6 +36,12 @@ $usr_id = $_SESSION['loggedIn'];
 if(isset($_POST['usrname']) && isset($_POST['oldpw']) && isset($_POST['newpw1']) && isset($_POST['newpw2'])){
 	$user = $_POST['usrname'];
 	$oldpw = $_POST['oldpw'];
+	
+	
+	$oldpw = md5($oldpw . 'd64kd87q');
+	
+	
+	
 	$newpw1 = $_POST['newpw1'];
 	$newpw2 = $_POST['newpw2'];
 	
@@ -29,11 +54,12 @@ if(isset($_POST['usrname']) && isset($_POST['oldpw']) && isset($_POST['newpw1'])
 	}
 	if ($row[0] > 0)
 	{
-		if($newpw1 != $newpw2){
+		if($newpw1 !== $newpw2){
 			$msg = "New passwords don't match.";
 			$log->insert_log("$usr_id", 103, 92);
 		}
 		else{
+			$newpw1 = md5($newpw1 . 'd64kd87q');
 			$sql2 = "UPDATE members SET password='$newpw1' WHERE username='$user'";
 			$result2 = mysql_query($sql2, $m->con);
 			if(!$result2){
@@ -41,6 +67,7 @@ if(isset($_POST['usrname']) && isset($_POST['oldpw']) && isset($_POST['newpw1'])
 				$log->insert_log("$usr_id", 103, -1);
 			}
 			else {
+				$_SESSION['alert_msg']="Password changed successfully";
 				$log->insert_log("$usr_id", 103, 2);
 				header("location:logged_in.php");
 				exit;
@@ -56,28 +83,18 @@ if(isset($_POST['usrname']) && isset($_POST['oldpw']) && isset($_POST['newpw1'])
 
 
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <title>DoorLock Homes</title>
 
- <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
-</head>
 
 <body>
+
+<div data-role="page" id="change_pw">
 	<!--Header-->
     <div data-theme="b" data-role="header" style="padding:10px;">
         <div style="text-align:center">
 		<h1>
             Doorlock Homes
         </h1>
-		<img src="http://newescapologist.co.uk/wp-content/uploads/2013/09/silhouette-large.gif" height=75px/>
+		<img src="images/icon.png" height=75px/>
 		</div>
 		<p><p/>
 		 
@@ -90,8 +107,9 @@ if(isset($_POST['usrname']) && isset($_POST['oldpw']) && isset($_POST['newpw1'])
 	
 	<div id="doortool" style="text-align:center">
 	<h3>Change Password</h3>
-	   <form action="" id="changepw" method="POST"> 
-		<table>
+	    <form action="" id="changepw" method="POST" rel="external" data-ajax="false"> 
+		<input type="hidden" name="alert" value="alert" />
+		<table style="margin:auto;">
 	            <tr>
                         <td>User Name :</td>
                         <td><input type="text" id="usrname" name="usrname" /></td>
@@ -110,7 +128,7 @@ if(isset($_POST['usrname']) && isset($_POST['oldpw']) && isset($_POST['newpw1'])
                     </tr>
                     <tr>
                         <td><input type="hidden" name="login" value="login" /></td>
-                        <td><input type="submit" id="submit" name="submit" value="Submit" /></td>
+                        <td><input type="submit" id="submit" name="submit" value="Submit"  /></td>
                     </tr>
                     <tr>
                         <td colspan="2"><?php echo (isset($msg) ? '<font color="red">'.$msg.'</font>': '');?></td>
@@ -120,11 +138,10 @@ if(isset($_POST['usrname']) && isset($_POST['oldpw']) && isset($_POST['newpw1'])
 	    </form>
 	    
 	    <form action='logged_in.php' method='post'>
-            	<table>
+			<table>
 			<td colspan="5">
-                		<button id="nevermind" name="nevermind" style="width:100%">Nevermind</button>
+				<button id="nevermind" name="nevermind" style="width:100%">Back</button>
    			</td>
-		</table>
             </form>	
 		<p></p>
 		<p></p>
@@ -143,7 +160,7 @@ if(isset($_POST['usrname']) && isset($_POST['oldpw']) && isset($_POST['newpw1'])
 		</div>
 		
 
-
+</div>
 
 </body>
 </html>

@@ -15,8 +15,10 @@ $usr_id = $_SESSION['loggedIn'];
 
 if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['primpw'])){
 	$user = $_POST['usrname'];
-	$pw1 = $_POST['pw1'];
-	$primpw = $_POST['primpw'];
+	$pw1 = 	md5($_POST['pw1'] . 'd64kd87q');
+	$primpw = md5($_POST['primpw'] . 'd64kd87q');
+	
+
 	
 	$sql = "select count(*) from members where user_id=1 and password='$primpw'";
 	$result = mysql_query($sql, $m->con);
@@ -44,8 +46,16 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['primpw'])){
 				$msg = 'update didnt work';
 				$log->insert_log("$usr_id", 102, -1);
 			}
+			
+			$user_sql = "select user_id from members where user_id = $usr_id";
+			$user_rez = mysql_query($user_sql, $m->con);
+			
 			if($row2[0] > 0){
-				header("location:logged_in.php");
+				if($user_rez[0]>0) header('Location:logout.php');
+				else{
+					$_SESSION['alert']="$user deleted successfully";
+					header("location:logged_in.php");
+				}
 				$log->insert_log("$usr_id", 102, 2);
 				exit;
 			}
@@ -53,6 +63,8 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['primpw'])){
 				$msg = 'Wrong User or Password.';
 				$log->insert_log("$usr_id", 102, 93);
 			}
+			
+
 		}
 	}
 	else
@@ -75,17 +87,25 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['primpw'])){
 
  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+$(document).bind("mobileinit", function () {
+    $.mobile.ajaxEnabled = false;
+});
+</script>
+
 <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
 </head>
 
 <body>
+
+<div data-role="page" id="remove_user">
 	<!--Header-->
     <div data-theme="b" data-role="header" style="padding:10px;">
         <div style="text-align:center">
 		<h1>
             Doorlock Homes
         </h1>
-		<img src="http://newescapologist.co.uk/wp-content/uploads/2013/09/silhouette-large.gif" height=75px/>
+		<img src="images/icon.png" height=75px/>
 		</div>
 		<p><p/>
 		 
@@ -99,8 +119,8 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['primpw'])){
 	
 	<div id="doortool" style="text-align:center">
 	<h3>Remove User</h3>
-	   <form action="" id="changepw" method="POST"> 
-		<table>
+	   <form action="" id="changepw" method="POST" rel="external" data-ajax="false"> 
+		<table style="margin:auto;">
 	            <tr>
                         <td>User Name :</td>
                         <td><input type="text" id="usrname" name="usrname" /></td>
@@ -127,7 +147,7 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['primpw'])){
 	    <form action='logged_in.php' method='post'>
             	<table>
 			<td colspan="5">
-                		<button id="nevermind" name="nevermind" style="width:100%">Nevermind</button>
+                		<button id="nevermind" name="nevermind" style="width:100%">Back</button>
    			</td>
 		</table>
             </form>	
@@ -147,7 +167,7 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['primpw'])){
         </h2>
     </div>
 
-
+</div>
 </body>
 </html>
 

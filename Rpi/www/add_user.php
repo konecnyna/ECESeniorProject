@@ -17,7 +17,8 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['pw2']) && i
 	$user = $_POST['usrname'];
 	$pw1 = $_POST['pw1'];
 	$pw2 = $_POST['pw2'];
-	$primpw = $_POST['primpw'];
+	$primpw = md5( $_POST['primpw'] . 'd64kd87q');
+	
 
 	$sql = "select count(*) from members where user_id=1 and password='$primpw'";
 	$result = mysql_query($sql, $m->con);
@@ -28,11 +29,12 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['pw2']) && i
 	}
 	if ($row[0] > 0)
 	{
-		if($pw1 != $pw2){
+		if($pw1 !== $pw2){
 			$msg = "New passwords don't match.";
                         $log->insert_log("$usr_id", 101, 92);
 		}
 		else{
+			$pw1 = 	md5($pw1 . 'd64kd87q');
 			$sql2 = "insert into members (username, password) values ('$user','$pw1')";
 			$result2 = mysql_query($sql2, $m->con);
 			if(!$result2){
@@ -40,8 +42,9 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['pw2']) && i
                         	$log->insert_log("$usr_id", 101, 93);
 			}
 			else {
+				$_SESSION['alert_msg']="$user added successfully";
 				header("location:logged_in.php");
-                        	$log->insert_log("$usr_id", 101, 2);
+				$log->insert_log("$usr_id", 101, 2);
 				exit;
 			}
 		}
@@ -66,17 +69,21 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['pw2']) && i
 
  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
 <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
 </head>
 
 <body>
+
+
+<div data-role="page" id="add_user">
 	<!--Header-->
     <div data-theme="b" data-role="header" style="padding:10px;">
         <div style="text-align:center">
 		<h1>
             Doorlock Homes
         </h1>
-		<img src="http://newescapologist.co.uk/wp-content/uploads/2013/09/silhouette-large.gif" height=75px/>
+		<img src="images/icon.png" height=75px/>
 		</div>
 		<p><p/>
 		 
@@ -89,8 +96,8 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['pw2']) && i
 	
 	<div id="doortool" style="text-align:center">
 	<h3>Add User</h3>
-	   <form action="" id="changepw" method="POST"> 
-		<table>
+	   <form action="" id="changepw" method="POST" rel="external" data-ajax="false"> 
+		<table style="margin:auto;">
 	            <tr>
                         <td>User Name :</td>
                         <td><input type="text" id="usrname" name="usrname" /></td>
@@ -118,15 +125,15 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['pw2']) && i
 		</table>
 	    </form>
 	    
-	    <form action='logged_in.php' method='post'>
+	    <form action='logged_in.php'  rel="external" method='post'>
             	<table>
 			<td colspan="5">
-                		<button id="nevermind" name="nevermind" style="width:100%">Nevermind</button>
+                		<button id="nevermind" name="nevermind" style="width:100%">Back</button>
    			</td>
 		</table>
             </form>	
 		<p></p>
-		<p></p>
+		<p></p>
 		<p></p>
 		<br/>
 		<br/>
@@ -143,7 +150,7 @@ if(isset($_POST['usrname']) && isset($_POST['pw1']) && isset($_POST['pw2']) && i
 		</div>
 		
 
-
+</div>
 
 </body>
 </html>

@@ -10,12 +10,7 @@
  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 
-<!-- Need this for session shit -->
-<script type="text/javascript">
-$(document).bind("mobileinit", function () {
-    $.mobile.ajaxEnabled = false;
-});
-</script>
+
 
 <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
 
@@ -35,16 +30,15 @@ $m = new mysql();
 $log = new log();
 
 if(isset($_POST['usrname']) && isset($_POST['usrpass'])){
-	//$email = mysql_real_escape_string($m->con, $_POST['usremail']);
+	//$user = mysql_real_escape_string($m->con, $_POST['usremail']);
 	$user = $_POST['usrname'];
+	
 	//$password = mysql_real_escape_string($m->con, $_POST['usrpass']);
 	$password = $_POST['usrpass'];
-	//$password = md5($password . 'd64kd87q');
-
 	
-	//$link = mysql_connect('konecny.dyndns.org', 'Nick', '05uhwHY.');
-	//	die('Could not connect: ' . mysql_error());
-///	mysql_close($link);
+	$password = md5($password . 'd64kd87q');
+	
+
 	$sql1 = "select user_id from members where username='$user'";
 	$result1 = mysql_query($sql1, $m->con);
 	$row1 = mysql_fetch_array($result1);
@@ -113,12 +107,12 @@ if (isset($_SESSION['loggedIn'])) {
 			<h1>
 				Doorlock Homes
 			</h1>
-			<img src="http://newescapologist.co.uk/wp-content/uploads/2013/09/silhouette-large.gif" height=75px/>
+			<img src="images/icon.png" height=75px/>
 			</div>
 			<p><p/>
 		</div>
 				<div id="DivLogin" style="magin-top:25px;">
-					<form action="" id="login" method="POST" >
+					<form action="" id="login" method="POST" rel="external" data-ajax="false">
 					<table style="margin:auto;">
 						<tr>
 						<td>User Name :</td>
@@ -129,8 +123,8 @@ if (isset($_SESSION['loggedIn'])) {
 						<td><input type="password" id="usrpass" name="usrpass" /></td>
 						</tr>
 						<tr>
-						<td><input type="hidden" name="login" value="login" data-ajax="false" /></td>
-						<td><input type="submit" id="submit" name="submit" value="Submit" data-ajax="false" /></td>
+						<td><input type="hidden" name="login" value="login"  /></td>
+						<td><input type="submit" id="submit" name="submit" value="Submit" /></td>
 						</tr>
 						<tr>
 						<td colspan="2"><?php echo (isset($msg) ? '<font color="red">'.$msg.'</font>': '');?></td>

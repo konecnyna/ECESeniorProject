@@ -47,23 +47,18 @@ void init_software_interupt(double time)
 	// 1 Second = 7812
 	// Calc: Desiredtime/( (1/F)/1024 )
 	// 1 / (1/( (8*10^6)/1024) ) = 7812 ~ 1 second
+	
+	//Clock/prescaller => 8MHz / 1024 = 7
 
-	OCR0 = time;
+
+	OCR1A = time;
 	TCCR1A = 0;
 	TCCR1B = 0;
 	TCCR1B |= (1 << WGM12);
 	TCCR1B |= (1<<CS10);
 	TCCR1B |= (1<<CS12);
-
-
-
-	//http://www.avrfreaks.net/index.php?name=PNphpBB2&file=viewtopic&t=47000
-	///TCCR0 = _BV(CS02) | _BV(CS00);
-	///TIMSK = _BV(TOIE0);
-
-
 	TIMSK |= (1 << OCIE1A);
-	//TCCR0 |= (1 << CS10);
+	sei();
 
 }
 
@@ -74,16 +69,19 @@ int seconds = 0;
 ISR(TIMER1_COMPA_vect){
 	//OCR1A = (dutyCycle/100.0)*255.0;
 	seconds++;
-	printf("in timer overflow: %d seconds have passed\r\n", seconds);
+	printf("in timer overflow: %d seconds have passed\r\n",seconds);
+	in_progress = FALSE;
 	//_delay_ms(100);
 }
+
+
 
 //Hardware Interupt
 //Async task
 int i = 0;
 ISR(INT0_vect)
 {
-		  pin_low(pinOCR1A);
+	pin_low(pinOCR1A);
 	//PD2 and PD3 are external interupts.
 	in_progress = FALSE;
 	printf("In locked HW interrupt %d, In_progress = %d\r\n", i, in_progress);

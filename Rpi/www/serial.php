@@ -25,6 +25,8 @@ function send_to_avr($action) {
 			echo "<font color='green'>Locked</font>";
 		}else if($rez[1]==4){
 			echo "<font color='blue'>Unlocked</font>";
+		}else if($rez[1]==80){
+			echo "<font color='red'>Sensor Error.</font> <a href='#popupDialog' data-rel='popup' id='reset'>Reset?</a>";	
 		}else{
 			echo "<font color='red'>Error communicating with AVR</font>";
 		}
@@ -35,7 +37,7 @@ function send_to_avr($action) {
    if(!$response){
        echo "Error: python exec failed!<br/>";
    } else {
-       echo "Python script exec successfully!<br/>";
+       //echo "Python script exec successfully!<br/>";
    }
    
    return $response;
@@ -79,10 +81,10 @@ echo $row_code_desc['code_desc'];
 $log = new log();
 $log->insert_log($usr_id, $code_id, $rez[1]);
 
-echo "<br/>Event logged. <br/>Finished";
+//echo "<br/>Event logged. <br/>Finished";
 
 
-echo "||||$rez[1]"; 
+echo "||||$code_id"; 
 
 
 ?>
