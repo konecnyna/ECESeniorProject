@@ -1,4 +1,5 @@
 <?php
+//sql.php
 /**
  * mbe.ro
  *
@@ -9,9 +10,8 @@
  //Taken from: https://mbe.ro/2009/08/30/fast-and-easy-php-mysql-class/
 class mysql {
 	var $con;
-	function __construct($db=array()) {
+	function __construct($db=array()) {	//connect function, only one we use
 		$default = array(
-			//'host' => 'localhost',
 			'host' => 'localhost',
 			'user' => 'root',
 			'pass' => 'houlihan9',

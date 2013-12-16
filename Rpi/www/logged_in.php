@@ -1,15 +1,16 @@
 <?php
+//logged_in.php
 //check logged in or not!
 session_start();
-ini_set('display_errors', 1);
 
+//enable error display
+ini_set('display_errors', 1);
 error_reporting(E_ALL);
 if(!isset($_SESSION['loggedIn'])){
 	header('Location:index.php');
 }
 
-$boobs = "farts";
-
+//uses functions from these scripts
 require('classes/sql.php');
 require('classes/log.php');
 ?>
@@ -130,6 +131,11 @@ var toast=function(msg){
                     Status
                 </a>
             </li>
+            <li data-theme="c">
+                <a href="doorbell.php" data-transition="slide">
+                    View Doorbell History
+                </a>
+            </li>
         </ul>
         <ul data-role="listview" data-divider-theme="b" data-inset="true">
             <li data-role="list-divider" role="heading">
@@ -155,16 +161,17 @@ var toast=function(msg){
                     View Log
                 </a>
             </li>
-			<li data-theme="c">
+            <li data-theme="c">
                 <a href="display_log.php?error=true" data-transition="slide">
                     View Error Log
                 </a>
             </li>
         </ul>
+	<br/>
     </div>
     <div data-theme="b" data-role="footer" data-position="fixed">
         <h2>
-		&copy;	Nicholas MUTHAFUCKING Konecny <br/>and<br/> Devan Houlihan
+		&copy;	Nicholas Konecny <br/>and<br/> Devan Houlihan
         </h2>
     </div>
 </div>

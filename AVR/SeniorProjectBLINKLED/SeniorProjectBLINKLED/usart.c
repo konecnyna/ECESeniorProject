@@ -1,3 +1,5 @@
+//usart.c
+//This file contains the usart communication functions
 //**********************************************//
 // USART Commucation Functions                  //
 //**********************************************//
@@ -21,13 +23,14 @@ void USART_Init( unsigned int baud )
 	/* Set frame format: 8data, 1stop bit */
 	//UCSRC = (1<<URSEL)|(3<<UCSZ0);
 	
-	/* Set frame format: 8data, 2stop bit */
+	/* Set frame format: 8data, 2stop bit, no parity */
 	UCSRC = (1<<URSEL)|(1<<USBS)|(3<<UCSZ0);
 	
+	//so printf goes to the serial stream
 	stdin=&serial_stream;
 	stdout=&serial_stream;
 	
-	//Enable Serial Interupt
+	//Enable global Interupt
 	sei();
 }
 
@@ -36,7 +39,7 @@ void USART_Init( unsigned int baud )
 int USART_Transmit( unsigned char data, FILE * fp)
 {
 	/* Wait for empty transmit buffer */
-	while ( !( UCSRA & (1<<UDRE)) )
+	while ( !( UCSRA & (1<<UDRE)) )	
 	;
 	/* Put data into buffer, sends the data */
 	UDR = data;

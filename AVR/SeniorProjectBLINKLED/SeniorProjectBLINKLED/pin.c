@@ -1,47 +1,52 @@
+//pin.c
+//this file contains useful functions for pin manipulation
 /************************************************************************/
 /*                    Pin Manipulation                                  */
 /************************************************************************/
 #include "pin.h"
 
+//_BV is bit value
+//it makes 	PORTB |= (1 << PB6);
+// the same as 	PORTB |= _BV(6);
+
+//Set pin as an output
 void pin_output(struct Pin pin)
 {
-	//Set pin as an output
 	*(pin.Reg) |= _BV(pin.No);
 }
 
+//Set pin as input
 void pin_input(struct Pin pin)
 {
-	//Set pin as input
 	*(pin.Reg) &= ~(_BV(pin.No));
 }
 
+//Set pin level High
 void pin_high(struct Pin pin)
 {
-	//Set pin level High
 	*(pin.Port) |= _BV(pin.No);
 }
 
+//Set pin level low
 void pin_low(struct Pin pin)
 {
-	//Set pin level low
 	// PORTD &= ~(1 << n); equivalent to ~(_BV(n));
 	//PORTD &= ~(1 << n);
 	*(pin.Port) &= ~( 1 << (pin.No));
 }
 
+//Toggle pin level.
 void pin_toggle(struct Pin pin)
 {
-	//Toggle pin level.
 	*(pin.Port) ^= _BV(pin.No);
 }
 
-
+//Returns boolean true if high| false if low;
 uint8_t pin_read(struct Pin pin)
 {
 	//printf("%d \r\n",pin_read(pin7));
 	//_delay_ms(100);
 	//Button setup http://arduino.cc/en/tutorial/button
-	//Returns boolean true if high| false if low;
 	uint8_t value = (*(pin.InputPin) & _BV(pin.No));
 	return value;
 }
@@ -56,9 +61,9 @@ uint8_t pin_read(struct Pin pin)
 /*                      OCR Pins Setup                                  */
 /************************************************************************/
 
+//set up struct for OCR pins
 void init_OCR_pins()
 {
-	//OCR pins
 	pinOCR1A.No = PD5;
 	pinOCR1A.Port = &PORTD;
 	pinOCR1A.Reg = &DDRD;
@@ -82,10 +87,11 @@ void init_OCR_pins()
 	
 }
 
+//Define Pins for limit switch.
 void init_LOCK_pins()
 {
-		//Define Pins for limit switch.
-
+		
+		//set up struct for limit switch pins PD2 and PD3
 		pinLockedLS.InputPin = &PIND;
 		pinLockedLS.No = PD2;
 		pinLockedLS.Port = &PORTD;

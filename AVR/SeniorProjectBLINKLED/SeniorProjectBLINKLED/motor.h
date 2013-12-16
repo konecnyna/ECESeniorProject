@@ -1,3 +1,5 @@
+//motor.h
+//header file for motor.c
 #ifndef motor_h
 #define motor_h
 
@@ -14,7 +16,7 @@ extern "C" {
 	
 	//Limit switch
 	void limitswitch_test(Pin);
-	int limitswitch_raed(Pin);
+	int limitswitch_read(Pin);
 	
 	//Main functions
 	int lockdoor();

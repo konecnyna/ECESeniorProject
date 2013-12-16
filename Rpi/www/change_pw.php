@@ -14,8 +14,11 @@
 </head>
 
 <?php
+//change_pw.php
 //check logged in or not!
 session_start();
+
+//enable error display
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 if(!isset($_SESSION['loggedIn'])){
@@ -26,58 +29,60 @@ if(isset($_SESSION['alert_msg'])){
 	unset($_SESSION['alert_msg']);
 }
 
+//uses functions from hese
 require('classes/sql.php');
 require('classes/log.php');
 
+//create new mysql and log variables
 $m = new mysql();
 $log = new log();
 $usr_id = $_SESSION['loggedIn'];
 
+//if they have filled in all fields and submitted
 if(isset($_POST['usrname']) && isset($_POST['oldpw']) && isset($_POST['newpw1']) && isset($_POST['newpw2'])){
 	$user = $_POST['usrname'];
-	$oldpw = $_POST['oldpw'];
-	
-	
-	$oldpw = md5($oldpw . 'd64kd87q');
-	
-	
-	
+	$oldpw = $_POST['oldpw'];	
+	$oldpw = md5($oldpw . 'd64kd87q');	//password hash
 	$newpw1 = $_POST['newpw1'];
 	$newpw2 = $_POST['newpw2'];
 	
+	//query to see if username and old password mathes the DB
 	$sql = "select count(*) from members where username='$user' and password='$oldpw'";
 	$result = mysql_query($sql, $m->con);
 	$row = mysql_fetch_array($result);
-	if (!$result)
+	if (!$result)				//error check for mysql
         {
 		echo 'Error Saving Data. ';
+		$log->insert_log("$usr_id", 103, -1);
 	}
-	if ($row[0] > 0)
+	if ($row[0] > 0)			//if user exists
 	{
-		if($newpw1 !== $newpw2){
+		if($newpw1 !== $newpw2){				//if new pws dont match
 			$msg = "New passwords don't match.";
-			$log->insert_log("$usr_id", 103, 92);
+			$log->insert_log("$usr_id", 103, 92);		//insert error into log
 		}
 		else{
-			$newpw1 = md5($newpw1 . 'd64kd87q');
+			//query to change password
+			$newpw1 = md5($newpw1 . 'd64kd87q');		//hash pw first
 			$sql2 = "UPDATE members SET password='$newpw1' WHERE username='$user'";
 			$result2 = mysql_query($sql2, $m->con);
-			if(!$result2){
+			if(!$result2){					//error check
 				$msg = 'update didnt work';
 				$log->insert_log("$usr_id", 103, -1);
 			}
 			else {
-				$_SESSION['alert_msg']="Password changed successfully";
-				$log->insert_log("$usr_id", 103, 2);
-				header("location:logged_in.php");
+				//successful password change
+				$_SESSION['alert_msg']="Password changed successfully";	//set alert message 
+				$log->insert_log("$usr_id", 103, 2);			//update log
+				header("location:logged_in.php");			//relocate to loggedin
 				exit;
 			}
 		}
 	}
-	else
+	else					//user doesnt exist
 	{
 		$msg = 'Wrong username or password.';
-		$log->insert_log("$usr_id", 103, 93);
+		$log->insert_log("$usr_id", 103, 93);		//update log
 	}
 }
 
@@ -155,7 +160,7 @@ if(isset($_POST['usrname']) && isset($_POST['oldpw']) && isset($_POST['newpw1'])
 		
 		<div data-theme="b" data-role="footer" data-position="fixed">
 			<h2>
-			&copy;	Nicholas MUTHAFUCKING Konecny <br/>and<br/> Devan Houlihan
+			&copy;	Nicholas Konecny <br/>and<br/> Devan Houlihan
 			</h2>
 		</div>
 		

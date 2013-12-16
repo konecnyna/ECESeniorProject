@@ -1,3 +1,5 @@
+//motor.c
+//this file has the motor control and limitswitch functions
 #include "motor.h"
 #include "defines.h"
 /************************************************************************/
@@ -6,7 +8,7 @@
 /*         http://www.instructables.com/file/F04ZYTFGKS0TZKZ            */
 /************************************************************************/
 
-void limitswitch_test(struct Pin pin){
+void limitswitch_test(struct Pin pin){	 //Tests if limit switches have been presed
 	int count = 0;
 	while(1)
 	{
@@ -29,6 +31,7 @@ void limitswitch_test(struct Pin pin){
 //Hook green wire to ground
 //Hook red to pin.
 //When pin is floating its high otherwise ground dat bitch.
+//this function reads the limit switch
 int limitswitch_read(struct Pin pin)
 {
 	//Returns true if press false otherwise
@@ -46,6 +49,45 @@ int limitswitch_read(struct Pin pin)
 /*               Lock and Unlock Functions                              */
 /************************************************************************/
 
+//this function resets the lock
+int reset_lock(){
+	//Check position of door.
+	if(get_lock_position() == errSensorError)
+	{
+		//Start to lock door by turning motor 
+		pin_high(pinOCR1B);
+		pin_low(pinOCR1A);
+		
+		TCNT1 = 0;
+		in_progress = TRUE;	//set global variable
+		while(in_progress == TRUE){
+			//printf("inlockloop\r\n");
+			if(limitswitch_read(pinLockedLS) > 0){	//until pin is hit, dont stop
+				in_progress = FALSE;
+			}
+		}
+		
+		//stop turning motor
+		pin_low(pinOCR1A);
+		pin_low(pinOCR1B);
+		
+		if(get_lock_position()== LOCKED)
+		{
+			return SUCCESS;
+		}
+		else
+		{
+			return ERROR;
+		}
+	}//Change so you check fur both stuff
+	else
+	{
+		//printf("Error: Door is already locked.");
+		return get_lock_position();
+	}
+}
+
+//this function returns the locked position
 int get_lock_position()
 {
 	//check both limit switches at once
@@ -63,61 +105,31 @@ int get_lock_position()
 	
 }
 
-
-int reset_lock(){
-		//Check position of door.
-		if(get_lock_position() == errSensorError)
-		{
-			//Lock door
-			pin_high(pinOCR1B);
-			pin_low(pinOCR1A);
-			
-			in_progress = TRUE;
-			while(in_progress == TRUE){
-				//printf("inlockloop\r\n");
-				if(limitswitch_read(pinLockedLS) > 0){
-					in_progress = FALSE;
-				}
-			}
-			
-
-			pin_low(pinOCR1A);
-			pin_low(pinOCR1B);
-			
-			if(get_lock_position()== LOCKED)
-			{
-				return SUCCESS;
-			}
-			else
-			{
-				return ERROR;
-			}
-		}//Change so you check fur both stuff
-		else
-		{
-			//printf("Error: Door is already locked.");
-			return get_lock_position();
-		}
-}
-
+//this function locks the door
 int lock_door()
 {
 	//Check position of door.
 	if(get_lock_position() == UNLOCKED)
 	{
 		
-		//Lock door
+		//Lock door, turn motor
 		pin_high(pinOCR1B);
 		pin_low(pinOCR1A);
-				
+		
+		//Reset timer overflow
+		TCNT1 = 0;		
 		in_progress = TRUE;
 		while(in_progress == TRUE){
 			//printf("inlockloop\r\n");
-			if(limitswitch_read(pinLockedLS) > 0){
+			if(limitswitch_read(pinLockedLS) > 0){	//wait until locked
 				in_progress = FALSE;
 			}
 		}
+		
+		//Print time since last timeout
+		//printf("TNT: %d\n\r",TCNT1);
 				
+		//turn off motor
 		pin_low(pinOCR1A);
 		pin_low(pinOCR1B);
 		
@@ -127,7 +139,7 @@ int lock_door()
 		}
 		else
 		{
-			return ERROR;
+			return errSensorError;
 		}
 	}else if(get_lock_position() == errSensorError){
 		return errSensorError;
@@ -141,20 +153,28 @@ int lock_door()
 	
 }
 
+//this function unlocks the door
 int unlock_door()
 {
 	if(get_lock_position()  == LOCKED)
 	{
-		
-		in_progress = TRUE;
+		//Turn motor
 		pin_high(pinOCR1A);
 		pin_low(pinOCR1B);
+		
+		//Reset Timer counter
+		TCNT1 = 0;
+		in_progress = TRUE;
 		while(in_progress == TRUE){
 			//printf("inunlockloop\r\n");
-			if(limitswitch_read(pinUnlockedLS) > 0){
+			if(limitswitch_read(pinUnlockedLS) > 0){	//wait for limitswitch
 				in_progress = FALSE;
 			}
 		}
+		//Print current time since last overflow
+		//printf("TNT: %d\n\r",TCNT1);
+		
+		//stop motor
 		pin_low(pinOCR1A);
 		pin_low(pinOCR1B);
 		if(get_lock_position()== UNLOCKED)
@@ -163,7 +183,7 @@ int unlock_door()
 		}
 		else
 		{
-			return ERROR;
+			return errSensorError;
 		}
 	}else if(get_lock_position() == errSensorError){
 		return errSensorError;
@@ -174,7 +194,7 @@ int unlock_door()
 	}
 }
 
-
+//this function returns lock position
 int door_status()
 {
 	//printf("Statuscase - Code: %d\n\r",get_lock_position());
@@ -183,7 +203,7 @@ int door_status()
 }
 
 
-
+//this function initiallizes the hbridge pins to low and outputs
 void init_hbridge()
 {
 	// According to Bruce and experience

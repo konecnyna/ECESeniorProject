@@ -1,3 +1,5 @@
+//pin.h
+//header file for pin.c, defines the pin struct
 #ifndef pin_h
 #define pin_h
 

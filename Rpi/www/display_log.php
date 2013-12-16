@@ -1,16 +1,18 @@
 <?php
-
+//display_log.php
 session_start();
+
+//enable error display
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 if(!isset($_SESSION['loggedIn'])){
 	header('Location:index.php');
 }
 
-$show_debug = 0;
+$show_err = 0;
 //echo $_GET["error"];
 if(isset($_GET['error'])){
-	$show_debug = 1;
+	$show_err = 1;
 }
 //echo $show_debug;
 $user_id = $_SESSION['loggedIn'];
@@ -54,9 +56,11 @@ require('classes/log.php');
 <h1>Log:</h1>
 
 <?php 
+//create log variable
 $log = new log();
 
-if($show_debug){
+//if error log is wanted, show it, else reg log
+if($show_err){
 	echo $log->view_log($user_id, 60, 1);
 }else{
 	echo $log->view_log($user_id, 60, 0);
@@ -64,7 +68,7 @@ if($show_debug){
 ?>
     <div data-theme="b" data-role="footer" data-position="fixed">
         <h2>
-		&copy;	Nicholas MUTHAFUCKING Konecny <br/>and<br/> Devan Houlihan
+		&copy;	Nicholas Konecny <br/>and<br/> Devan Houlihan
         </h2>
     </div>
 

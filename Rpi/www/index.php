@@ -15,89 +15,96 @@
 <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
 
 
-</head
+</head>
 
 
 <?php
+//index.php
 session_start();
+//allow errors to be displayed
 ini_set('display_errors', 1); 
 error_reporting(E_ALL);
 
-require('classes/sql.php');
-require('classes/log.php');
+require('classes/sql.php');	//uses functions from 
+require('classes/log.php');	//these php scripts
 
-$m = new mysql();
-$log = new log();
+$m = new mysql();		//create mysql variable
+$log = new log();		//create log variable
 
 if(isset($_POST['usrname']) && isset($_POST['usrpass'])){
 	//$user = mysql_real_escape_string($m->con, $_POST['usremail']);
-	$user = $_POST['usrname'];
+	$user = $_POST['usrname'];			//set user equal to input
 	
 	//$password = mysql_real_escape_string($m->con, $_POST['usrpass']);
-	$password = $_POST['usrpass'];
+	$password = $_POST['usrpass'];			//set password equal to input
 	
-	$password = md5($password . 'd64kd87q');
+	$password = md5($password . 'd64kd87q');	//md5 hash the password
 	
-
+	//query to check if user exists
+	//for log use only
 	$sql1 = "select user_id from members where username='$user'";
-	$result1 = mysql_query($sql1, $m->con);
+	$result1 = mysql_query($sql1, $m->con);	
 	$row1 = mysql_fetch_array($result1);
 	
+	//query for user and pass match
 	$sql2 = "select user_id from members where username='$user' and password = '$password'";
-	$result2 = mysql_query($sql2, $m->con);
+	$result2 = mysql_query($sql2, $m->con);				
 	$row2 = mysql_fetch_array($result2);
 	
-	if (!$result1)
+	//error checking for mysql queries	
+	if (!$result1)			
 	{
 		echo 'Error Saving Data. ';
-		$log->insert_log(-1, 100, -1);
+		$log->insert_log(-1, 100, -1);	//insert error into log
 		exit();
 	}
 	if (!$result2)
 	{
 		echo 'Error Saving Data. ';
-		$log->insert_log(-1, 100, -1);
+		$log->insert_log(-1, 100, -1);	//insert error into log
 		exit();
 	}
-	if ($row1[0] > 0)
+	if ($row1[0] > 0)		//if user exists
 	{
-		if($row2[0] > 0){
-			$_SESSION['loggedIn'] = $row1[0];
+		if($row2[0] > 0){	//if user and password match
+			$_SESSION['loggedIn'] = $row1[0];	//session variable is set to userid#
 			$usr_id = $_SESSION['loggedIn'];	
-			header ('Location: logged_in.php');
-			$log->insert_log("$usr_id", 100, 2);
+			header ('Location: logged_in.php');	//relocate to logged in
+			$log->insert_log("$usr_id", 100, 2);	//insert successful login to log
 			exit();
 		}
-		else {
-			$usr_id = $row1[0];
-			$log->insert_log("$usr_id", 100, 90);
+		else {			//if user exists, but wrong password
+			$usr_id = $row1[0];				
+			$log->insert_log("$usr_id", 100, 90);	//insert error into log
 			$msg = 'Wrong username or password.';
 		}
 	}
-	else
+	else				//if user doesnt exist
 	{      
 		$msg = 'Wrong username or password.';
-		$log->insert_log(-1, 100, 91);
+		$log->insert_log(-1, 100, 91);			//insert error into log
 	}
 }
 	
 //logout script
 if(isset($_REQUEST['ch']) && $_REQUEST['ch'] == 'logout'){
 	print "Logged out";
-	unset($_SESSION['loggedIn']);
+	unset($_SESSION['loggedIn']);		//unset session variables
 	unset($_SESSION['usrname']);
 	unset($_SESSION['usrpass']);
-	header('Location:index.php');
+	header('Location:index.php');		//relocate to here
 } 
  
 
-if (isset($_SESSION['loggedIn'])) {
+if (isset($_SESSION['loggedIn'])) {		//for refresh and direct page requests once logged in
     if (isset($_REQUEST['pagename']))
         header('Location:' . $pagename . '.php');
     else
         header('Location:logged_in.php');
 }else{
 
+
+	//HTML begins now, no comments
 ?>
 
     <body>
@@ -136,7 +143,7 @@ if (isset($_SESSION['loggedIn'])) {
 			</div> 
 			<div data-theme="b" data-role="footer" data-role="footer" data-position="fixed" data-role="footer" data-position="fixed">
 				<h2>
-				&copy;	Nicholas MUTHAFUCKING Konecny <br/>and<br/> Devan Houlihan
+				&copy;	Nicholas Konecny <br/>and<br/> Devan Houlihan
 				</h2>
 			</div>
 		</div>

@@ -1,6 +1,10 @@
+//defines.h
+//header file for defines.c, contains the defines for the project
 #ifndef utils_h
 #define utils_h
 
+
+#define F_CPU 8000000
 
 
 #include "pin.h"
