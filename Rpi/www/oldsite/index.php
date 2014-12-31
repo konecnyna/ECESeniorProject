@@ -16,10 +16,6 @@ if(isset($_POST['usrname']) && isset($_POST['usrpass'])){
 	$password = $_POST['usrpass'];
 	//$password = md5($password . 'd64kd87q');
 
-	
-	//$link = mysql_connect('konecny.dyndns.org', 'Nick', '05uhwHY.');
-	//	die('Could not connect: ' . mysql_error());
-///	mysql_close($link);
 	$sql1 = "select user_id from members where username='$user'";
 	$result1 = mysql_query($sql1, $m->con);
 	$row1 = mysql_fetch_array($result1);
