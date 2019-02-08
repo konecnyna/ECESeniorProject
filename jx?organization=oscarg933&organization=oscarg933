@@ -1,0 +1,144 @@
+Skip to content
+Your account has been flagged.
+Because of that, your profile is hidden from the public. If you believe this is a mistake, contact support to have your account status reviewed.
+
+php bluetooth print
+Repositories0
+Code456K
+Commits121
+Issues924
+Marketplace0
+Topics0
+Wikis165
+Users0
+Language
+
+Sort
+
+456,278 code results
+@konecnyna
+konecnyna/ECESeniorProject – serialcomm.py
+Showing the top five matches
+Last indexed on Jun 27, 2018
+Python
+#this is used by serial.php to send commands via bluetooth to the avr
+
+def connect():
+        #Open bluetooth socket on RFCOMM
+        socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)	#set up socket
+        try:
+                print "try"
+                socket.connect(('00:06:66:4E:DD:AE',1))		#conect to rfcomm address of AVR bluetooth
+@ranielagno
+ranielagno/MMDA_Ticketing – MainActivity.java
+Showing the top two matches
+Last indexed on Jul 8, 2018
+Java
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.zj.com.cn.bluetooth.sdk.BluetoothService;
+import com.zj.com.cn.bluetooth.sdk.DeviceListActivity;
+import com.zj.com.command.sdk.Command;
+@BaiMaoLi
+BaiMaoLi/davalley – index.php
+Showing the top five matches
+Last indexed 22 days ago
+PHP
+<?php 
+?>
+
+<!doctype html>
+
+<html>
+  <head>
+    <title>Bluetooth Printer</title>
+    <style is="custom-style">
+    <meta name="description" content="Print text and images to a Bluetooth Printer with a Web Bluetooth app.">
+@AllenLeeGD
+AllenLeeGD/mqapp – print.js
+Showing the top two matches
+Last indexed on Jul 9, 2018
+JavaScript
+    var IntentFilter = plus.android.importClass('android.content.IntentFilter');
+    var BluetoothAdapter = plus.android.importClass("android.bluetooth.BluetoothAdapter");
+    var BluetoothDevice = plus.android.importClass("android.bluetooth.BluetoothDevice");
+@tianyi-zhang
+tianyi-zhang/ExampleStack-ICSE-Artifact – 15455730.txt
+Showing the top four matches
+Last indexed 11 days ago
+Text
+  bluetooth.begin(115200);  // The Bluetooth Mate defaults to 115200bps
+  bluetooth.print("$$$");  // Enter command mode
+  delay(100);  // Short delay, wait for the Mate to send back CMD
+    // Send any characters the bluetooth prints to the serial monitor
+    Serial.print((char)bluetooth.read());  
+  }
+  /*if(Serial.available())  // If stuff was typed in the serial monitor
+@jeedom
+jeedom/plugin-bluetooth – bluetooth.js
+Showing the top six matches
+Last indexed on Jun 30, 2018
+JavaScript
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "plugins/bluetooth/core/ajax/bluetooth.ajax.php", // url du fichier php
+        url: "plugins/bluetooth/core/ajax/bluetooth.ajax.php", // url du fichier php
+@novowebapp
+novowebapp/1A25 – MainActivity.java
+Showing the top nine matches
+Last indexed on Jul 9, 2018
+Java
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintManager;
+@kvaxminsk
+kvaxminsk/cooler – add_printer.php
+Showing the top two matches
+Last indexed on Jun 27, 2018
+PHP
+    $result = mysql_query("INSERT INTO printer (type,series,image_small,image_big,model,color_print,functions,format,resolution_max,kol_color,bez_pc,wi_fi,ethernet,bluetooth,fax,card,lcd,photo_print,information,weight,height,width,depth,cost,date) VALUES ('$type', '$series', '$image_small', '$image_big', '$model', '$color_print', '$functions', '$format', '$resolution_max', '$kol_color', '$bez_pc', '$wi_fi', '$ethernet', '$bluetooth', '$fax', '$card', '$lcd', '$photo_print', '$information', '$weight', '$height', '$width', '$depth', '$cost', '$date')");
+@kvaxminsk
+kvaxminsk/cooler – update_printer.php
+Showing the top four matches
+Last indexed on Jun 27, 2018
+PHP
+<?php
+include("lock.php");
+include("blocks/bd.php"); /*Connecting to BD!*/
+if (isset($_POST['id'])) {
+    if ($model == '') {
+        unset($model);
+    }
+}
+if (isset($_POST['color_print'])) {
+@do-api
+do-api/sample – main.ui.js
+Showing the top four matches
+Last indexed on Jul 5, 2018
+JavaScript
+openButton.on('touch', function(){ // 打开蓝牙, iPhone iOS10之后的调试设备请手动打开蓝牙
+    var data = bluetooth.open();
+    var Type = typeof(data);    
+    deviceone.print("打开蓝牙 返回值类型：" + Type + " 返回值：" + JSON.stringify(data));
+    var data = bluetooth.connect({address:ADDRESS});
+    var Type = typeof(data);
+    deviceone.print("连接蓝牙外设，地址: " + ADDRESS + "返回值类型：" + Type + " 返回值：" + JSON.stringify(data));
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Press h to open a hovercard with more details.
